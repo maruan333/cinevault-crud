@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{% if accion == 'crear' %}Nueva pelicula{% else %}Editar pelicula{% endif %} | CineVault{% endblock %}
+{% block content %}
+<section class="panel narrow">
+    <h2>{% if accion == 'crear' %}Nueva pelicula{% else %}Editar pelicula{% endif %}</h2>
+    <form method="post" class="stack">
+        <label>Titulo</label>
+        <input type="text" name="titulo" value="{{ pelicula.titulo if pelicula else '' }}" required />
+
+        <label>Anio</label>
+        <input type="number" name="anio" min="1888" max="2100" value="{{ pelicula.anio if pelicula else '' }}" required />
+
+        <label>Director</label>
+        <input type="text" name="director" value="{{ pelicula.director if pelicula else '' }}" required />
+
+        <label>Sinopsis</label>
+        <textarea name="sinopsis" rows="5" required>{{ pelicula.sinopsis if pelicula else '' }}</textarea>
+
+        <label>Poster URL (opcional)</label>
+        <input type="url" name="poster_url" value="{{ pelicula.poster_url if pelicula and pelicula.poster_url else '' }}" />
+
+        <div class="row-actions">
+            <button type="submit" class="btn-primary">Guardar</button>
+            <a href="/peliculas" class="btn-ghost">Cancelar</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

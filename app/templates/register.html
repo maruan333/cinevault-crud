@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Registro | CineVault{% endblock %}
+{% block content %}
+<section class="auth-wrap">
+    <div class="auth-card">
+        <h2>Crear cuenta</h2>
+        <p class="muted">Los usuarios nuevos se registran con permisos de lectura.</p>
+
+        {% if error %}<p class="alert error">{{ error }}</p>{% endif %}
+
+        <form method="post" action="/register" class="stack">
+            <label>Usuario</label>
+            <input type="text" name="username" minlength="3" required />
+            <label>Contrasena</label>
+            <input type="password" name="password" minlength="6" required />
+            <label>Repite contrasena</label>
+            <input type="password" name="confirm_password" minlength="6" required />
+            <button type="submit" class="btn-primary">Registrar</button>
+        </form>
+
+        <p class="small">Ya tienes cuenta? <a href="/login">Volver al login</a></p>
+    </div>
+</section>
+{% endblock %}

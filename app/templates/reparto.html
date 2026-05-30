@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Reparto | CineVault{% endblock %}
+{% block content %}
+<section class="panel">
+    <div class="panel-head">
+        <div>
+            <h2>Reparto de {{ pelicula.titulo }}</h2>
+            <p class="muted">Relacion N-M entre peliculas y actores.</p>
+        </div>
+        <a href="/peliculas" class="btn-ghost">Volver</a>
+    </div>
+
+    {% if success %}<p class="alert ok">{{ success }}</p>{% endif %}
+    {% if error %}<p class="alert error">{{ error }}</p>{% endif %}
+
+    <div class="split">
+        <div class="box">
+            <h3>Actores asignados</h3>
+            {% for a in actores_asignados %}
+            <div class="simple-item with-action">
+                <span><strong>{{ a.nombre }}</strong> · {{ a.nacionalidad }}</span>
+                {% if user.es_admin %}
+                <form method="post" action="/peliculas/{{ pelicula.id }}/reparto/quitar">
+                    <input type="hidden" name="actor_id" value="{{ a.id }}" />
+                    <button class="btn-danger" type="submit">Quitar</button>
+                </form>
+                {% endif %}
+            </div>
+            {% else %}
+            <p class="muted">Esta pelicula aun no tiene actores asignados.</p>
+            {% endfor %}
+        </div>
+
+        <div class="box">
+            <h3>Actores disponibles</h3>
+            {% if user.es_admin %}
+            <form method="post" action="/peliculas/{{ pelicula.id }}/reparto/asignar" class="stack">
+                <label>Selecciona actor</label>
+                <select name="actor_id" required>
+                    <option value="">Elige un actor</option>
+                    {% for a in actores_disponibles %}
+                    <option value="{{ a.id }}">{{ a.nombre }} ({{ a.nacionalidad }})</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn-primary">Asignar al reparto</button>
+            </form>
+            {% else %}
+            <p class="muted">Solo el admin puede modificar el reparto.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

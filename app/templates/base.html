@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}CineVault{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <header class="topbar">
+        <div class="brand-block">
+            <p class="tag">CINEMATIC ARCHIVE</p>
+            <h1 class="brand">CineVault</h1>
+        </div>
+        {% if request.session.get('user_id') %}
+        <nav class="nav-actions">
+            <a href="/peliculas">Peliculas</a>
+            <a href="/actores">Actores</a>
+            <span class="chip {% if request.session.get('is_admin') %}chip-admin{% endif %}">
+                {{ request.session.get('username') }}
+            </span>
+            <a class="btn-ghost" href="/logout">Salir</a>
+        </nav>
+        {% endif %}
+    </header>
+
+    <main class="page">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

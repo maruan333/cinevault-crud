@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Actores | CineVault{% endblock %}
+{% block content %}
+<section class="panel">
+    <div class="panel-head">
+        <div>
+            <h2>Actores</h2>
+            <p class="muted">Catalogo para construir repartos N-M.</p>
+        </div>
+    </div>
+
+    {% if success %}<p class="alert ok">{{ success }}</p>{% endif %}
+    {% if error %}<p class="alert error">{{ error }}</p>{% endif %}
+
+    {% if user.es_admin %}
+    <form method="post" action="/actores/nuevo" class="inline-form">
+        <input type="text" name="nombre" placeholder="Nombre del actor" required />
+        <input type="text" name="nacionalidad" placeholder="Nacionalidad" required />
+        <button type="submit" class="btn-primary">Agregar actor</button>
+    </form>
+    {% endif %}
+
+    <div class="simple-list">
+        {% for a in actores %}
+            <div class="simple-item">
+                <strong>{{ a.nombre }}</strong>
+                <span>{{ a.nacionalidad }}</span>
+            </div>
+        {% else %}
+            <p class="muted">No hay actores cargados.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

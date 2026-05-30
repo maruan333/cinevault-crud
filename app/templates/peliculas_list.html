@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Peliculas | CineVault{% endblock %}
+{% block content %}
+<section class="panel">
+    <div class="panel-head">
+        <div>
+            <h2>Coleccion de peliculas</h2>
+            <p class="muted">Catalogo principal con busqueda y reparto.</p>
+        </div>
+        {% if user.es_admin %}
+            <a href="/peliculas/nueva" class="btn-primary">Nueva pelicula</a>
+        {% endif %}
+    </div>
+
+    {% if success %}<p class="alert ok">{{ success }}</p>{% endif %}
+    {% if error %}<p class="alert error">{{ error }}</p>{% endif %}
+
+    <form method="get" action="/peliculas" class="search-row">
+        <input type="text" name="buscar" value="{{ buscar }}" placeholder="Buscar por titulo o director" />
+        <button type="submit" class="btn-ghost">Buscar</button>
+        <a href="/peliculas" class="btn-ghost">Limpiar</a>
+    </form>
+
+    <div class="cards">
+        {% for p in peliculas %}
+        <article class="movie-card">
+            <div class="poster-wrap">
+                {% if p.poster_url %}
+                <img src="{{ p.poster_url }}" alt="Poster {{ p.titulo }}" />
+                {% else %}
+                <div class="poster-fallback">{{ p.titulo[:1] }}</div>
+                {% endif %}
+            </div>
+            <div class="movie-meta">
+                <h3>{{ p.titulo }}</h3>
+                <p>{{ p.anio }} · {{ p.director }}</p>
+                <p class="synopsis">{{ p.sinopsis }}</p>
+                <div class="row-actions">
+                    <a class="btn-ghost" href="/peliculas/{{ p.id }}/reparto">Ver reparto</a>
+                    {% if user.es_admin %}
+                        <a class="btn-ghost" href="/peliculas/{{ p.id }}/editar">Editar</a>
+                        <form method="post" action="/peliculas/{{ p.id }}/borrar" onsubmit="return confirm('Borrar pelicula?');">
+                            <button type="submit" class="btn-danger">Borrar</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% else %}
+        <p class="muted">No hay peliculas para mostrar.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
