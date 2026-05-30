@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
+from datetime import datetime
 
 from database import get_database_connection
 from repositorios.UsuarioRepository import UsuarioRepository
@@ -301,6 +302,11 @@ async def reparto_quitar_post(
         url=f"/peliculas/{pelicula_id}/reparto?success=Actor quitado",
         status_code=303,
     )
+
+
+@app.get("/version")
+async def version():
+    return {"version": "v0.1.0", "deployed_at": datetime.utcnow().isoformat()}
 
 
 if __name__ == "__main__":
