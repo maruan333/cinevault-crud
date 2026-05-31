@@ -21,7 +21,7 @@ services:
   web:
     build:
       context: ./app
-    image: maruan333/cinevault:latest
+    image: maruan3/cinevault:latest
     container_name: cinevault-web
     ports:
       - "8000:8000"
